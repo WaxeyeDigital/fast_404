@@ -16,6 +16,8 @@ class Fast404 {
 
   public $event;
 
+  public $load_html = TRUE;
+
   public function __construct(Request $request) {
     $this->request = $request;
   }
@@ -58,12 +60,13 @@ class Fast404 {
 
     // If we are using URL whitelisting then determine if the current URL is
     // whitelisted before running the extension check.
-
     // Check for exact URL matches and assume it's fine if we get one.
-    $url_whitelist = Settings::get('fast404_url_whitelisting', FALSE);
-    if (is_array($url_whitelist)) {
-      if (in_array($path, $url_whitelist)) {
-        return;
+    if(Settings::get('fast404_url_whitelisting', FALSE)) {
+      $trimmed_path = ltrim($path, '/');
+      $allowed = Settings::get('fast404_whitelist', array());
+      if (in_array($trimmed_path, $allowed)) {
+        // URL is whitelisted. Assumed good.
+        return TRUE;
       }
     }
 
@@ -80,6 +83,7 @@ class Fast404 {
     $extensions =  Settings::get('fast404_exts', '/^(?!robots).*\.(txt|png|gif|jpe?g|css|js|ico|swf|flv|cgi|bat|pl|dll|exe|asp)$/i');
     // Determine if URL contains a blacklisted extension.
     if (isset($extensions) && preg_match($extensions, $path, $m)) {
+      $this->load_html = FALSE;
       $this->blockPath();
       return;
     }
@@ -121,6 +125,7 @@ class Fast404 {
 
     // If we get to here it means nothing has matched the request so we assume
     // it's a bad path and block it.
+
     $this->blockPath();
 
   }
@@ -138,6 +143,17 @@ class Fast404 {
 
   public function response() {
     $message = Settings::get('fast404_html', '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>404 Not Found</title></head><body><h1>Not Found</h1><p>The requested URL "@path" was not found on this server (Fast 404).</p></body></html>');
+    $return_gone = Settings::get('fast404_return_gone', FALSE);
+    $custom_404_path = Settings::get('fast404_HTML_error_page',FALSE);
+    if ($return_gone){
+      header((Settings::get('fast_404_HTTP_status_method', 'mod_php') == 'FastCGI' ? 'Status:' : 'HTTP/1.0') . ' 410 Gone');
+    } else {
+      header((Settings::get('fast_404_HTTP_status_method', 'mod_php') == 'FastCGI' ? 'Status:' : 'HTTP/1.0') . ' 404 Not Found');
+    }
+    // If a file is set to provide us with fast_404 joy, load it
+    if(($this->load_html || Settings::get('fast_404_HTML_error_all_paths',FALSE) === TRUE) && file_exists($custom_404_path)) {
+      $message = @file_get_contents($custom_404_path, FALSE);
+    }
     $response = new Response(SafeMarkup::format($message, array('@path' => $this->request->getPathInfo())), 404);
     $response->send();
   }
