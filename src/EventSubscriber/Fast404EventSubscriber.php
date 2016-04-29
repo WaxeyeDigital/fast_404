@@ -36,12 +36,12 @@ class Fast404EventSubscriber implements EventSubscriberInterface {
 
     $fast_404->extensionCheck();
     if ($fast_404->isPathBlocked()) {
-      $fast_404->response();
+      $event->setResponse($fast_404->response(TRUE));
     }
 
     $fast_404->pathCheck();
     if ($fast_404->isPathBlocked()) {
-      $fast_404->response();
+      $event->setResponse($fast_404->response(TRUE));
     }
   }
 
