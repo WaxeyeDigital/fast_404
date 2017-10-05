@@ -4,7 +4,7 @@
 // number of bootstrap phases is reduced and the kernel utilised more fully.
 // https://drupal.org/node/2023495
 // https://drupal.org/node/2016629
-
+use Drupal\fast404\Fast404;
 use Drupal\Core\Site\Settings;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -22,8 +22,7 @@ function fast404_preboot(Array $settings = array()) {
 
   // This is pretty much a wrote copy of the Fast404EventSubscriber class that
   // fires when the module is enabled.
-
-  $fast_404 = new \Drupal\fast404\Fast404($request);
+  $fast_404 = new Fast404($request);
 
   $fast_404->extensionCheck();
   if ($fast_404->isPathBlocked()) {

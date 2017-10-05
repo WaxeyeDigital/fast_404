@@ -51,8 +51,8 @@ class Fast404EventSubscriber implements EventSubscriberInterface {
    * @return array
    *   An array of event listener definitions.
    */
-  static function getSubscribedEvents() {
-    $events[KernelEvents::REQUEST][] = array('onKernelRequest', 100);
+  public static function getSubscribedEvents() {
+    $events[KernelEvents::REQUEST][] = ['onKernelRequest', 100];
     return $events;
   }
 
