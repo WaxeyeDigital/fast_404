@@ -8,6 +8,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Drupal\fast404\Fast404;
 
+/**
+ * Class Fast404EventSubscriber.
+ *
+ * @package Drupal\fast404\EventSubscriber
+ */
 class Fast404EventSubscriber implements EventSubscriberInterface {
 
   /**
@@ -20,7 +25,7 @@ class Fast404EventSubscriber implements EventSubscriberInterface {
   /**
    * Constructs a new Fast404EventSubscriber instance.
    *
-   * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
+   * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
    *   The Request Stack.
    */
   public function __construct(RequestStack $request_stack) {

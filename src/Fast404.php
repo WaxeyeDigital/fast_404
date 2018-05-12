@@ -8,20 +8,49 @@ use Drupal\Component\Utility\SafeMarkup;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Fast404: A value object for manager Fast 404 logic.
+ *
+ * @package Drupal\fast404
+ */
 class Fast404 {
 
-  public $respond_404 = FALSE;
+  /**
+   * Whether fast 404 logic should be used.
+   *
+   * @var bool
+   */
+  public $respond404 = FALSE;
 
+  /**
+   * The current request.
+   *
+   * @var \Symfony\Component\HttpFoundation\Request
+   */
   public $request;
 
-  public $event;
+  /**
+   * Whether to load html or respond otherwise.
+   *
+   * @var bool
+   */
+  public $loadHtml = TRUE;
 
-  public $load_html = TRUE;
-
+  /**
+   * Fast404 constructor.
+   *
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   *   The current request.
+   */
   public function __construct(Request $request) {
     $this->request = $request;
   }
 
+  /**
+   * Extension check.
+   *
+   * A strategy for handling fast 404 settings.
+   */
   public function extensionCheck() {
     // Get the path from the request.
     $path = $this->request->getPathInfo();
@@ -83,16 +112,20 @@ class Fast404 {
     $extensions = Settings::get('fast404_exts', '/^(?!robots).*\.(txt|png|gif|jpe?g|css|js|ico|swf|flv|cgi|bat|pl|dll|exe|asp)$/i');
     // Determine if URL contains a blacklisted extension.
     if (isset($extensions) && preg_match($extensions, $path, $m)) {
-      $this->load_html = FALSE;
+      $this->loadHtml = FALSE;
       $this->blockPath();
       return;
     }
 
   }
 
+  /**
+   * Path check.
+   *
+   * Since the path check is a lot more aggressive in its blocking we should
+   * actually check that the user wants it to be done.
+   */
   public function pathCheck() {
-    // Since the path check is a lot more aggressive in its blocking we should
-    // actually check that the user wants it to be done.
     if (!Settings::get('fast404_path_check', FALSE)) {
       return;
     }
@@ -104,11 +137,13 @@ class Fast404 {
       return;
     }
 
-    // If we have a database connection we can use it, otherwise we might be
-    // initialising it.
-    // We remove '/' from the list of possible patterns as it exists in the router
-    // by default. This means that the query would match any path (/%) which is
-    // undesirable when we're only looking to match some paths.
+    /*
+     *  If we have a database connection we can use it, otherwise we might be
+     * initialising it.
+     * We remove '/' from the list of possible patterns as it exists in the
+     * router by default. This means that the query would match any path (/%)
+     * which is undesirable when we're only looking to match some paths.
+     */
     $sql = "SELECT pattern_outline FROM {router} WHERE :path LIKE CONCAT(pattern_outline, '%') AND pattern_outline != '/'";
     $result = Database::getConnection()->query($sql, [':path' => $path])->fetchField();
     if ($result) {
@@ -128,17 +163,35 @@ class Fast404 {
 
   }
 
+  /**
+   * Block the delivery of this 404 response.
+   */
   public function blockPath() {
-    $this->respond_404 = TRUE;
+    $this->respond404 = TRUE;
   }
 
+  /**
+   * Make sure cli calls are not blocked.
+   *
+   * @return bool
+   *   Whether the path is blocked or not.
+   */
   public function isPathBlocked() {
     if (PHP_SAPI === 'cli') {
       return FALSE;
     }
-    return $this->respond_404;
+    return $this->respond404;
   }
 
+  /**
+   * Prepare a 404 response.
+   *
+   * @param bool $return
+   *   Decide whether to return the response object or simply send it.
+   *
+   * @return \Symfony\Component\HttpFoundation\Response
+   *   If this returns anything, it will be a response object.
+   */
   public function response($return = FALSE) {
     $message = Settings::get('fast404_html', '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>404 Not Found</title></head><body><h1>Not Found</h1><p>The requested URL "@path" was not found on this server (Fast 404).</p></body></html>');
     $return_gone = Settings::get('fast404_return_gone', FALSE);
@@ -150,7 +203,7 @@ class Fast404 {
       header((Settings::get('fast_404_HTTP_status_method', 'mod_php') == 'FastCGI' ? 'Status:' : 'HTTP/1.0') . ' 404 Not Found');
     }
     // If a file is set to provide us with fast_404 joy, load it.
-    if (($this->load_html || Settings::get('fast_404_HTML_error_all_paths', FALSE) === TRUE) && file_exists($custom_404_path)) {
+    if (($this->loadHtml || Settings::get('fast_404_HTML_error_all_paths', FALSE) === TRUE) && file_exists($custom_404_path)) {
       $message = @file_get_contents($custom_404_path, FALSE);
     }
     $response = new Response(SafeMarkup::format($message, ['@path' => $this->request->getPathInfo()]), 404);
