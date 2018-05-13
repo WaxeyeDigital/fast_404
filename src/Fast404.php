@@ -151,8 +151,10 @@ class Fast404 {
     }
 
     // Check the URL alias table for anything that's not a standard Drupal path.
-    $sql = "SELECT pid FROM {url_alias} WHERE :alias = CONCAT('/', alias)";
-    $result = Database::getConnection()->query($sql, [':alias' => $path])->fetchField();
+    // Remove any trailing slash found in the request path.
+    $path_noslash = rtrim($path, '/');
+    $sql = "SELECT pid FROM {url_alias} WHERE alias = :alias";
+    $result = Database::getConnection()->query($sql, [':alias' => $path_noslash])->fetchField();
     if ($result) {
       return;
     }
