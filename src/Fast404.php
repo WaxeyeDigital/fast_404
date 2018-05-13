@@ -4,7 +4,7 @@ namespace Drupal\fast404;
 
 use Drupal\Core\Site\Settings;
 use Drupal\Core\Database\Database;
-use Drupal\Component\Utility\SafeMarkup;
+use Drupal\Component\Render\FormattableMarkup;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -208,7 +208,7 @@ class Fast404 {
     if (($this->loadHtml || Settings::get('fast_404_HTML_error_all_paths', FALSE) === TRUE) && file_exists($custom_404_path)) {
       $message = @file_get_contents($custom_404_path, FALSE);
     }
-    $response = new Response(SafeMarkup::format($message, ['@path' => $this->request->getPathInfo()]), 404);
+    $response = new Response(new FormattableMarkup($message, ['@path' => $this->request->getPathInfo()]), 404);
     if ($return) {
       return $response;
     }
