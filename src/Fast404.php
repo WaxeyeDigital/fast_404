@@ -137,13 +137,10 @@ class Fast404 {
       return;
     }
 
-    /*
-     *  If we have a database connection we can use it, otherwise we might be
-     * initialising it.
-     * We remove '/' from the list of possible patterns as it exists in the
-     * router by default. This means that the query would match any path (/%)
-     * which is undesirable when we're only looking to match some paths.
-     */
+    // If we have a database connection we can use it, otherwise we might be
+    // initialising it. We remove '/' from the list of possible patterns as it
+    // exists in the router by default. This means that the query would match
+    // any path (/%) which is undesirable.
     $sql = "SELECT pattern_outline FROM {router} WHERE :path LIKE CONCAT(pattern_outline, '%') AND pattern_outline != '/'";
     $result = Database::getConnection()->query($sql, [':path' => $path])->fetchField();
     if ($result) {
