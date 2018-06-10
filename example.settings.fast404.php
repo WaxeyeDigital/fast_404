@@ -37,7 +37,7 @@ $settings['fast404_exts'] = '/^(?!robots).*\.(txt|png|gif|jpe?g|css|js|ico|swf|f
  * 404. This informs clients that not only is the resource currently not
  * present but that it is not coming back and kindly do not ask again for it.
  * Reference: http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
-/**
+ */
 # $settings['fast404_return_gone'] = TRUE;.
 
 /**
@@ -50,7 +50,10 @@ $settings['fast404_allow_anon_imagecache'] = TRUE;
 /**
  * If you use FastCGI, uncomment this line to send the type of header it needs.
  * Reference: http://php.net/manual/en/function.header.php
- * $settings['fast_404_HTTP_status_method'] = 'FastCGI';.
+ */
+# $settings['fast_404_HTTP_status_method'] = 'FastCGI';.
+
+/**
  * BE CAREFUL with this setting as some modules
  * use their own php files and you need to be certain they do not bootstrap
  * Drupal. If they do, you will need to whitelist them too.
@@ -100,7 +103,7 @@ $settings['fast404_html'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//
  *
  * This is needed if you wish to do extension checking in settings.php.
  */
-# If (file_exists('./modules/fast_404/fast404.inc')) {
-# include_once './modules/fast_404/fast404.inc';
-# fast404_preboot($settings);
+# if (file_exists('./modules/fast_404/fast404.inc')) {
+#   include_once './modules/fast_404/fast404.inc';
+#   fast404_preboot($settings);
 # }
