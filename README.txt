@@ -62,8 +62,9 @@ GETTING EXTRA SPEED OUT OF THE ADVANCED INSTALL
   This checks to see if the URL you being visited actually corresponds to a
   real page in Drupal. This feature may be enabled with the following.
 
-  Global switch to turn this checking on and off (Default: off)
-    $settings['fast404_path_check'] = FALSE;
+  Global switch to turn this checking on and off (Default: off):
+
+  $settings['fast404_path_check'] = FALSE;
 
 #3) Give the static file checking a kick in the pants!
 
@@ -71,6 +72,7 @@ GETTING EXTRA SPEED OUT OF THE ADVANCED INSTALL
   as well as a bit of extra work with the preg_match (OK, a very small amount).
   Optionally, you can use whitelisting rather than blacklisting. To turn this
   on alter this setting in the settings.php:
+
   $settings['fast404_url_whitelisting'] = TRUE;
 
   This setting requires you to do some serious testing to ensure your site's
@@ -106,6 +108,7 @@ GETTING EXTRA SPEED OUT OF THE ADVANCED INSTALL
   $settings['fast404_string_whitelisting'] = ['cdn/farfuture'];
 
   If you are using AdvAgg you can use this:
+
   $settings['fast404_string_whitelisting'] = ['/advagg_'];
 
   Any further modules/paths that may need whitelisting can be added to the array.
