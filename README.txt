@@ -1,4 +1,4 @@
-Fast404 is Super Fast and Super Amazing. It is also aggressive and hard-core.
+Fast 404 is Super Fast and Super Amazing. It is also aggressive and hard-core.
 
 BE CAREFUL! TEST YOUR SITE THOROUGHLY AFTER ENABLING!
 
@@ -30,7 +30,7 @@ Step 6. Enable the module in your modules page.
 /**
  * Load fast404 configuration, if available.
  *
- * Use settings.fast404.php to provide settings for Fast404 module
+ * Use settings.fast404.php to provide settings for Fast 404 module.
  *
  * Keep this code block at the end of this file to take full effect.
  */

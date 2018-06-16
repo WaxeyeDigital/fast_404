@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 class Fast404 {
 
   /**
-   * Whether fast 404 logic should be used.
+   * Whether Fast 404 logic should be used.
    *
    * @var bool
    */
@@ -49,7 +49,7 @@ class Fast404 {
   /**
    * Extension check.
    *
-   * A strategy for handling fast 404 settings.
+   * A strategy for handling Fast 404 settings.
    */
   public function extensionCheck() {
     // Get the path from the request.
@@ -201,7 +201,7 @@ class Fast404 {
     else {
       header((Settings::get('fast404_HTTP_status_method', 'mod_php') == 'FastCGI' ? 'Status:' : 'HTTP/1.0') . ' 404 Not Found');
     }
-    // If a file is set to provide us with fast_404 joy, load it.
+    // If a file is set to provide us with Fast 404 joy, load it.
     if (($this->loadHtml || Settings::get('fast404_HTML_error_all_paths', FALSE) === TRUE) && file_exists($custom_404_path)) {
       $message = @file_get_contents($custom_404_path, FALSE);
     }

@@ -1,7 +1,7 @@
 {
   "name": "drupal/fast_404",
   "type": "drupal-module",
-  "description": "Speed up the generation of 404 pages with this module. Route 404 display to a static page.",
+  "description": "Speed up the generation of 404 pages and route 404 display to a static page.",
   "keywords": ["Drupal"],
   "license": "GPL-2.0+",
   "homepage": "https://www.drupal.org/project/fast_404",
