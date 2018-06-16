@@ -81,6 +81,19 @@ $settings['fast404_string_whitelisting'] = ['cdn/farfuture', '/advagg_'];
 # $settings['fast404_HTML_error_page'] = './my_page.html';
 
 /**
+ * Subscribe to NotFoundHttpException event.
+ *
+ * The Fast404 Event subscriber can listen to the NotFoundHttpException event
+ * to completely replace the Drupal 404 page.
+ *
+ * By default, Fast404 only listens to KernelRequest event. If a user hits a
+ * valid path, but another module intervenes and returns a NotFoundHttpException
+ * exception (eg. m4032404 module), the native Drupal 404 page is returned
+ * instead of the Fast404 page.
+ */
+# $settings['fast404_not_found_exception'] = TRUE;
+
+/**
  * Path checking. USE AT YOUR OWN RISK.
  *
  * Path checking at this phase is more dangerous, but faster. Normally
