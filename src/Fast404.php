@@ -196,13 +196,13 @@ class Fast404 {
     $return_gone = Settings::get('fast404_return_gone', FALSE);
     $custom_404_path = Settings::get('fast404_HTML_error_page', FALSE);
     if ($return_gone) {
-      header((Settings::get('fast_404_HTTP_status_method', 'mod_php') == 'FastCGI' ? 'Status:' : 'HTTP/1.0') . ' 410 Gone');
+      header((Settings::get('fast404_HTTP_status_method', 'mod_php') == 'FastCGI' ? 'Status:' : 'HTTP/1.0') . ' 410 Gone');
     }
     else {
-      header((Settings::get('fast_404_HTTP_status_method', 'mod_php') == 'FastCGI' ? 'Status:' : 'HTTP/1.0') . ' 404 Not Found');
+      header((Settings::get('fast404_HTTP_status_method', 'mod_php') == 'FastCGI' ? 'Status:' : 'HTTP/1.0') . ' 404 Not Found');
     }
     // If a file is set to provide us with fast_404 joy, load it.
-    if (($this->loadHtml || Settings::get('fast_404_HTML_error_all_paths', FALSE) === TRUE) && file_exists($custom_404_path)) {
+    if (($this->loadHtml || Settings::get('fast404_HTML_error_all_paths', FALSE) === TRUE) && file_exists($custom_404_path)) {
       $message = @file_get_contents($custom_404_path, FALSE);
     }
     $response = new Response(new FormattableMarkup($message, ['@path' => $this->request->getPathInfo()]), 404);

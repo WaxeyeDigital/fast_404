@@ -51,7 +51,7 @@ $settings['fast404_allow_anon_imagecache'] = TRUE;
  * If you use FastCGI, uncomment this line to send the type of header it needs.
  * Reference: http://php.net/manual/en/function.header.php
  */
-# $settings['fast_404_HTTP_status_method'] = 'FastCGI';.
+# $settings['fast404_HTTP_status_method'] = 'FastCGI';.
 
 /**
  * BE CAREFUL with this setting as some modules
