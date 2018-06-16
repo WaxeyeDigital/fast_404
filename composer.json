@@ -11,5 +11,7 @@
     "source": "http://cgit.drupalcode.org/fast_404"
   },
   "require": { },
-  "require-dev": { }
+  "require-dev": {
+    "drupal/redirect": "^1.2.0"
+  }
 }
