@@ -46,14 +46,17 @@ GETTING EXTRA SPEED OUT OF THE ADVANCED INSTALL
 
 #1) Check extensions from settings.php, not after loading all modules.
 
+  WARNING: This is not fully implemented and not ready for to use.
+  @see: https://www.drupal.org/project/fast_404/issues/2961512
+
   This method is faster as it checks for missing static files at bootstrap
   stage 1 rather than 5 when the modules are loaded and events dispatched.
 
   To enable this functionality, uncomment the lines below near the bottom of the
   example settings.fast404.php code:
 
-  if (file_exists('./modules/fast_404/fast404.inc')) {
-    include_once './modules/fast_404/fast404.inc';
+  if (file_exists($app_root . '/modules/contrib/fast_404/fast404.inc')) {
+    include_once $app_root . '/modules/contrib/fast_404/fast404.inc';
     fast404_preboot($settings);
   }
 

@@ -71,7 +71,7 @@
 # $settings['fast404_string_whitelisting'] = ['cdn/farfuture', '/advagg_'];
 
 /**
- * When Fast 404 checks for missing file assets, it will return or response
+ * When Fast 404 checks for missing file assets, it will return a response
  * containing the message set in the fast404_html settings. You can override
  * this behavior with this setting and return the HTML from the file set in the
  * fast404_HTML_error_page setting.
@@ -151,8 +151,12 @@
  * Load the fast404.inc file.
  *
  * This is needed if you wish to do extension checking in settings.php.
+ *
+ * WARNING: This is not fully implemented and not ready to use.
+ * @see: https://www.drupal.org/project/fast_404/issues/2961512
+ *
  */
-# if (file_exists('./modules/fast_404/fast404.inc')) {
-#   include_once './modules/fast_404/fast404.inc';
+# if (file_exists($app_root . '/modules/contrib/fast_404/fast404.inc')) {
+#   include_once $app_root . '/modules/contrib/fast_404/fast404.inc';
 #   fast404_preboot($settings);
 # }
