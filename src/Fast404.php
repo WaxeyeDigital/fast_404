@@ -4,9 +4,11 @@ namespace Drupal\fast404;
 
 use Drupal\Core\Site\Settings;
 use Drupal\Core\Database\Database;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Component\Render\FormattableMarkup;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 /**
  * Fast404: A value object for manager Fast 404 logic.
@@ -14,6 +16,8 @@ use Symfony\Component\HttpFoundation\Response;
  * @package Drupal\fast404
  */
 class Fast404 {
+
+  use StringTranslationTrait;
 
   /**
    * Whether Fast 404 logic should be used.
@@ -211,6 +215,7 @@ class Fast404 {
     }
     else {
       $response->send();
+      throw new ServiceUnavailableHttpException(3, $this->t('The requested URL "@path" was not found on this server. Try again shortly.', ['@path' => $this->request->getPathInfo()]));
     }
   }
 
