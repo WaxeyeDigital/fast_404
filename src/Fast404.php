@@ -180,7 +180,7 @@ class Fast404 {
    *   Whether the path is blocked or not.
    */
   public function isPathBlocked() {
-    if (PHP_SAPI === 'cli') {
+    if ($this->isCli()) {
       return FALSE;
     }
     return $this->respond404;
@@ -217,6 +217,16 @@ class Fast404 {
       $response->send();
       throw new ServiceUnavailableHttpException(3, $this->t('The requested URL "@path" was not found on this server. Try again shortly.', ['@path' => $this->request->getPathInfo()]));
     }
+  }
+
+  /**
+   * Check the type of interface between web server and PHP is CLI.
+   *
+   * @return bool
+   *   Whether or not the Server API for this build of PHP is CLI.
+   */
+  protected function isCli() {
+    return PHP_SAPI === 'cli';
   }
 
 }
