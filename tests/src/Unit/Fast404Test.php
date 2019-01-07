@@ -62,4 +62,25 @@ class Fast404Test extends UnitTestCase {
     $this->assertEquals(FALSE, $fast404->isPathBlocked());
   }
 
+  /**
+   * Tests checking if a extension is blocked.
+   *
+   * @covers ::extensionCheck
+   */
+  public function testExtensionCheck() {}
+
+  /**
+   * Tests checking if a path is blocked.
+   *
+   * @covers ::pathCheck
+   */
+  public function testPathCheck() {}
+
+  /**
+   * Tests Fast404 responses.
+   *
+   * @covers ::response
+   */
+  public function testResponse() {}
+
 }
