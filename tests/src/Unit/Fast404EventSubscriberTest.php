@@ -38,7 +38,7 @@ class Fast404EventSubscriberTest extends UnitTestCase {
    *
    * @covers ::onKernelRequest
    */
-  public function testOnKernelRequest() {}
+  // public function testOnKernelRequest() {}
 
   /**
    * Tests event handling for not found exceptions.

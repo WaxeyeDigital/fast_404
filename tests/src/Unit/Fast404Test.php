@@ -64,20 +64,20 @@ class Fast404Test extends UnitTestCase {
    *
    * @covers ::extensionCheck
    */
-  public function testExtensionCheck() {}
+  // public function testExtensionCheck() {}
 
   /**
    * Tests checking if a path is blocked.
    *
    * @covers ::pathCheck
    */
-  public function testPathCheck() {}
+  // public function testPathCheck() {}
 
   /**
    * Tests Fast404 responses.
    *
    * @covers ::response
    */
-  public function testResponse() {}
+  // public function testResponse() {}
 
 }
