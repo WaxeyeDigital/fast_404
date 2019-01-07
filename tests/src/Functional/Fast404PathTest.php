@@ -19,14 +19,7 @@ class Fast404PathTest extends BrowserTestBase {
   public static $modules = ['fast404'];
 
   /**
-   * {@inheritdoc}
-   */
-  protected function setUp() {
-    parent::setUp();
-  }
-
-  /**
-   * Tests the Url not found markup.
+   * Tests the path checking functionality.
    */
   public function testPathCheck() {
     // Ensure path check isn't activated by default.
@@ -44,7 +37,7 @@ class Fast404PathTest extends BrowserTestBase {
       'required' => TRUE,
     ];
     $this->writeSettings($settings);
-    
+
     $this->drupalGet('/does_not_exist');
     $this->assertSession()->statusCodeEquals(404);
     $this->assertSession()->pageTextContains('Not Found');

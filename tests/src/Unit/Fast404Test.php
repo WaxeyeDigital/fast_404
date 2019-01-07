@@ -15,13 +15,10 @@ class Fast404Test extends UnitTestCase {
   /**
    * Creates a fast404 object to test.
    *
-   * @param array $config
-   *   An array of client configuration.
-   *
    * @return \Drupal\fast404\Fast404
    *   A mock fast404 object to test.
    */
-  protected function getFast404(array $config = []) {
+  protected function getFast404() {
     $requestStub = $this->getMockBuilder('\Symfony\Component\HttpFoundation\Request')
       ->disableOriginalConstructor()
       ->getMock();
