@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\fast404\Unit;
 
+use Drupal\fast404\EventSubscriber\Fast404EventSubscriber;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
@@ -66,6 +67,21 @@ class Fast404EventSubscriberTest extends UnitTestCase {
       ->setConstructorArgs([$requestStackStub])
       ->getMock();
     return $subscriber;
+  }
+
+  /**
+   * Tests event listener registration.
+   *
+   * @covers ::getSubscribedEvents
+   */
+  public function testGetSubscribedEvents() {
+    $this->assertEquals(
+      [
+        'kernel.request' => [['onKernelRequest', 100]],
+        'kernel.exception' => [['onNotFoundException', 0]],
+      ],
+      Fast404EventSubscriber::getSubscribedEvents()
+    );
   }
 
 }
