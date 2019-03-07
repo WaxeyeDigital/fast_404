@@ -27,6 +27,10 @@ class Fast404ExtensionTest extends BrowserTestBase {
     $this->assertSession()->statusCodeEquals(404);
     $this->assertSession()->pageTextContains('The requested page could not be found.');
 
+    // Ensure robots.txt is not blocked by default settings.
+    $this->drupalGet('/robots.txt');
+    $this->assertSession()->statusCodeEquals(200);
+
     \Drupal::service('cache.page')->deleteAll();
 
     // Add .doc to the default extension list.
