@@ -3,3 +3,5 @@ description: 'Speed up the generation of 404 pages with this module. Route 404 d
 type: module
 package: 'Performance and scalability'
 core: 8.x
+dependencies:
+  - drupal:system (>= 8.5)
