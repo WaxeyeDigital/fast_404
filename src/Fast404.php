@@ -113,7 +113,7 @@ class Fast404 {
       }
     }
 
-    $extensions = Settings::get('fast404_exts', '/^(?!robots).*\.(txt|png|gif|jpe?g|css|js|ico|swf|flv|cgi|bat|pl|dll|exe|asp)$/i');
+    $extensions = Settings::get('fast404_exts', '/^(?!\/robots)^(?!\/system\/files).*\.(txt|png|gif|jpe?g|css|js|ico|swf|flv|cgi|bat|pl|dll|exe|asp)$/i');
     // Determine if URL contains a blacklisted extension.
     if (isset($extensions) && preg_match($extensions, $path, $m)) {
       $this->loadHtml = FALSE;
