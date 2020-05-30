@@ -215,7 +215,7 @@ class Fast404 {
     }
     else {
       $response->send();
-      throw new ServiceUnavailableHttpException(3, $this->t('The requested URL "@path" was not found on this server. Try again shortly.', ['@path' => $this->request->getPathInfo()]));
+      throw new ServiceUnavailableHttpException(3, 'The requested URL "@path" was not found on this server. Try again shortly.', ['@path' => $this->request->getPathInfo()]);
     }
   }
 
